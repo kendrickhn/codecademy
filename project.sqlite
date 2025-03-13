@@ -1,58 +1,14 @@
--- 1
--- What are the column names?
-SELECT *
+--Let's see how recent is this data
+SELECT DISTINCT order_date 
 FROM orders
-LIMIT 10;
+ORDER BY order_date DESC
+LIMIT 10; 
 
-
--- 2 
--- How recent is this data?
-
-
--- 3
--- Instead of selecting all the columns using *, 
--- write a query that selects only the special_instructions column.
-
--- Limit the result to 20 rows.
-
-
--- 4 
--- Can you edit the query so that we are only 
--- returning the special instructions that are not empty?
-
-
--- 5
--- Let’s go even further and sort the instructions 
--- in alphabetical order (A-Z).
-
-
--- 6
--- Let’s search for special instructions that have the word ‘sauce’.
-
--- Are there any funny or interesting ones? 
-
-
--- 7
--- Let’s search for special instructions that have the word ‘door’.
--- Any funny or interesting ones?
-
-
--- 8
--- Let’s search for special instructions that have the word ‘box’.
--- Any funny or interesting ones?
-
-
--- 9
--- Instead of just returning the special instructions, also return their order ids.
-
--- For more readability:
--- Rename id as ‘#’
--- Rename special_instructions as ‘Notes’
-
-
--- 10
--- Challenge
--- They have asked you to query the customer who made the phrase. 
--- Return the item_name restaurant_id, and user_id for the person created the phrase.
-
-
+--List out some interesting instructions with their order ids by using keywords
+SELECT id AS '#', item_name, restaurant_id, user_id, special_instructions AS 'Notes'
+FROM orders
+WHERE Notes IS NOT NULL
+  AND (Notes LIKE '%sauce%'
+    OR Notes LIKE '%door%'
+    OR Notes LIKE '%box%')
+ORDER BY id;
