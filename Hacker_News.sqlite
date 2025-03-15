@@ -1,0 +1,60 @@
+-- This query lists the top 5 stories with the highest scores.
+SELECT title, score 
+FROM hacker_news
+ORDER BY score DESC
+LIMIT 5; 
+
+-- -------------------------------------------------------
+
+-- Hacker News Moderating
+-- This query calculates the total sum of all scores from the hacker_news table.
+SELECT SUM(score)
+FROM hacker_news;
+
+-- This query finds users whose total post scores exceed 200.
+SELECT user, SUM(score)
+FROM hacker_news
+GROUP BY user
+HAVING SUM(score) > 200;
+
+-- -------------------------------------------------------
+
+-- This query calculates a specific average using hardcoded values.
+SELECT (309.0 + 304.0 + 282.0 + 517.0) / 6366.0;
+
+-- -------------------------------------------------------
+
+-- This query identifies users who have posted links containing the "Rickroll" YouTube video.
+-- It counts the number of posts per user and orders them by post count in descending order.
+SELECT user, COUNT(*)
+FROM hacker_news
+WHERE url LIKE '%watch?v=dQw4w9WgXcQ'
+GROUP BY user 
+ORDER BY 2 DESC; 
+
+-- -------------------------------------------------------
+
+-- This query categorizes links based on their source (GitHub, Medium, NYTimes, or Other).
+-- It counts the number of times each source appears in the hacker_news table.
+SELECT 
+    CASE 
+        WHEN url LIKE '%github%' THEN 'GitHub'
+        WHEN url LIKE '%medium%' THEN 'Medium'
+        WHEN url LIKE '%nytimes%' THEN 'New York Times'
+        ELSE 'Other'
+    END AS 'Source', 
+    COUNT (*)
+FROM hacker_news
+GROUP BY Source;
+
+-- -------------------------------------------------------
+
+-- This query calculates the average score and post count for each hour of the day.
+-- It starts with the hours that have the highest average scores and orders them in descending order.
+SELECT strftime('%H', timestamp) AS 'Hour', 
+       ROUND(AVG(score),2) AS 'average_score', 
+       COUNT(*) AS 'Number of Stories'
+FROM hacker_news
+WHERE timestamp IS NOT NULL 
+GROUP BY 1 
+ORDER BY 2 DESC; 
