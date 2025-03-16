@@ -1,0 +1,69 @@
+-- Task 1: Examine the three tables to view column names
+SELECT * FROM trips;
+SELECT * FROM riders;
+SELECT * FROM cars;
+
+-- Task 2: Identify primary keys for each table
+-- Primary key for trips: id
+-- Primary key for riders: id
+-- Primary key for cars: id
+
+-- Task 3: Perform a simple cross join between riders and cars (not typically useful due to excessive row duplication)
+SELECT * 
+FROM riders
+CROSS JOIN cars;
+
+-- Task 4: Create a Trip Log joining trips with their corresponding riders
+SELECT
+    trips.date,
+    trips.pickup,
+    trips.dropoff,
+    trips.type,
+    trips.cost,
+    riders.first,
+    riders.last,
+    riders.username
+FROM trips
+LEFT JOIN riders ON trips.rider_id = riders.id;
+
+-- Task 5: Link trips to the cars used
+SELECT
+    trips.date,
+    trips.pickup,
+    trips.dropoff,
+    trips.type,
+    trips.cost,
+    cars.model,
+    cars.OS
+FROM trips
+INNER JOIN cars ON trips.car_id = cars.id;
+
+-- Task 6: Combine the original riders table with new riders data
+SELECT * FROM riders
+UNION
+SELECT * FROM riders2;
+
+-- Task 7: Calculate the average cost of a trip
+SELECT AVG(cost) AS average_trip_cost
+FROM trips;
+
+-- Task 8: Find riders who have used Lyft less than 500 times for an email campaign
+WITH total_riders AS (
+    SELECT * FROM riders
+    UNION
+    SELECT * FROM riders2
+)
+SELECT id, first, last, username
+FROM total_riders
+WHERE total_trips < 500;
+
+-- Task 9: Count the number of active cars
+SELECT COUNT(*) AS active_cars_count
+FROM cars
+WHERE status = 'active';
+
+-- Task 10: Find two cars with the highest trips_completed for safety recall
+SELECT *
+FROM cars
+ORDER BY trips_completed DESC
+LIMIT 2;
