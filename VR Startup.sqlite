@@ -1,0 +1,21 @@
+select * from employees limit 10; 
+select * from projects limit 10;
+
+select first_name, last_name from employees where current_project is null; 
+
+select project_name 
+from projects
+where project_id not in (
+  select current_project
+  from employees
+  where current_project is not null); 
+
+
+select projects.project_name as 'most_crowded_project', 
+    count(employees.employee_id) as 'employee_count'
+from projects
+join employees
+  on projects.project_id=employees.current_project 
+  group by projects.project_name
+  order by employee_count desc
+  limit 1;
