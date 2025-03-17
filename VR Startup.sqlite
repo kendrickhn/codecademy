@@ -1,21 +1,70 @@
-select * from employees limit 10; 
-select * from projects limit 10;
+-- Previews
+SELECT * FROM employees LIMIT 10;
+SELECT * FROM projects LIMIT 10;
 
-select first_name, last_name from employees where current_project is null; 
+-- Finds employees who have not chosen any project yet (current_project is NULL)
+SELECT first_name, last_name 
+FROM employees 
+WHERE current_project IS NULL;
 
-select project_name 
-from projects
-where project_id not in (
-  select current_project
-  from employees
-  where current_project is not null); 
+-- Finds projects not chosen by any employees using subquery and NOT IN
+SELECT project_name 
+FROM projects
+WHERE project_id NOT IN (
+  SELECT current_project
+  FROM employees
+  WHERE current_project IS NOT NULL
+);
 
+-- Identifies the project chosen by the most employees using JOIN, COUNT(), GROUP BY, ORDER BY, and LIMIT
+SELECT 
+    projects.project_name AS most_crowded_project, 
+    COUNT(employees.employee_id) AS employee_count
+FROM projects
+JOIN employees ON projects.project_id = employees.current_project 
+GROUP BY projects.project_name
+ORDER BY employee_count DESC
+LIMIT 1;
 
-select projects.project_name as 'most_crowded_project', 
-    count(employees.employee_id) as 'employee_count'
-from projects
-join employees
-  on projects.project_id=employees.current_project 
-  group by projects.project_name
-  order by employee_count desc
-  limit 1;
+-- Finds projects chosen by more than one employee (non-solo projects) using JOIN, COUNT(), GROUP BY, and HAVING
+SELECT 
+    projects.project_name AS non_solo_projects,
+    COUNT(employees.employee_id) AS employee_count
+FROM projects
+JOIN employees ON projects.project_id = employees.current_project 
+GROUP BY projects.project_name
+HAVING employee_count > 1;
+
+-- Checks if there are enough available employees for projects that currently have only one employee assigned, assuming each project needs at least two employees
+WITH available_projects AS (
+  SELECT 
+      projects.project_name AS available_projects,
+      COUNT(employees.employee_id) AS employee_count
+  FROM projects
+  JOIN employees ON projects.project_id = employees.current_project 
+  GROUP BY projects.project_name
+  HAVING employee_count = 1
+),
+available_employee_count AS (
+  SELECT COUNT(*) AS count
+  FROM employees 
+  WHERE current_project IS NULL
+)
+SELECT 
+    CASE 
+      WHEN (SELECT COUNT(*) FROM available_projects) > (SELECT count FROM available_employee_count)
+          THEN 'Not Enough Employees'
+      WHEN (SELECT COUNT(*) FROM available_projects) < (SELECT count FROM available_employee_count)
+          THEN 'Enough Employees'
+      ELSE 'Right Enough Employees'
+    END AS employee_position_fill_status;
+
+-- Calculates how many additional developer positions need filling, assuming each project needs at least two developers
+SELECT 
+  (COUNT(*) * 2) - (
+    SELECT COUNT(*)
+    FROM employees
+    WHERE current_project IS NOT NULL
+      AND position = 'Developer'
+  ) AS positions_needed
+FROM projects;
