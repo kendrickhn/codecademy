@@ -1,0 +1,74 @@
+-- Preview 3 tables's structure and data
+SELECT * FROM users LIMIT 10;
+SELECT * FROM posts LIMIT 10;
+SELECT * FROM subreddits LIMIT 10;
+
+-- Counts total number of distinct subreddits using COUNT()
+SELECT COUNT(*) AS subreddit_count
+FROM subreddits;
+
+-- Finds the highest score among users using MAX()
+SELECT MAX(score) AS highest_user_score
+FROM users;
+
+-- Finds the highest score among posts using MAX()
+SELECT MAX(score) AS highest_post_score
+FROM posts;
+
+-- Retrieves names of top 5 subreddits ordered by subscriber count (popularity) using ORDER BY and LIMIT
+SELECT name AS top_5_subreddits
+FROM subreddits 
+ORDER BY subscriber_count DESC
+LIMIT 5;
+
+-- Counts how many posts each user made, joining users and posts tables using LEFT JOIN, COUNT(), GROUP BY, and ORDER BY
+SELECT 
+    users.id,
+    users.username,
+    COUNT(posts.id) AS posts_made
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id
+ORDER BY posts_made DESC;
+
+-- Finds titles of existing posts with inactive or deleted users (username is NULL) using INNER JOIN
+SELECT posts.title
+FROM posts 
+JOIN users ON users.id = posts.user_id
+WHERE users.username IS NULL;
+
+-- Combines two sets of posts (posts and posts2) using UNION
+SELECT * FROM posts
+UNION
+SELECT * FROM posts2;
+
+-- Creates a temporary table with high-scoring posts (score > 5000), joins it with subreddits to identify popular subreddits, using WITH (CTE), UNION, JOIN, and ORDER BY
+WITH popular_posts AS (
+    SELECT * FROM posts WHERE score > 5000
+    UNION
+    SELECT * FROM posts2 WHERE score > 5000
+)
+SELECT 
+    subreddits.name AS popular_subreddits,
+    popular_posts.title, 
+    popular_posts.score 
+FROM subreddits
+JOIN popular_posts ON subreddits.id = popular_posts.subreddit_id
+ORDER BY popular_posts.score DESC;
+
+-- Retrieves the highest scoring post for each subreddit using INNER JOIN, MAX(), and GROUP BY
+SELECT 
+    posts.title AS highest_score_post, 
+    MAX(posts.score) AS highest_score,
+    subreddits.name AS subreddit_name
+FROM posts
+JOIN subreddits ON posts.subreddit_id = subreddits.id
+GROUP BY subreddits.name;
+
+-- Calculates average score of all posts per subreddit using AVG(), JOIN, ROUND(), and GROUP BY
+SELECT 
+    subreddits.name,
+    ROUND(AVG(posts.score), 2) AS average_post_score
+FROM subreddits
+JOIN posts ON subreddits.id = posts.subreddit_id
+GROUP BY subreddits.name;
