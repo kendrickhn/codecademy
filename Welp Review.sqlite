@@ -1,0 +1,73 @@
+-- Task 1: Inspect tables to understand their structure and contents
+SELECT * FROM places;
+SELECT * FROM reviews;
+
+-- Task 2: Select all places costing $20 or less (each '$' is $10)
+SELECT *
+FROM places
+WHERE price_point IN ('$','$$');
+
+-- Task 3: Identify columns to JOIN tables
+-- JOIN columns: places.id and reviews.place_id
+
+-- Task 4: INNER JOIN to show places with at least one review (all details)
+SELECT *
+FROM places
+JOIN reviews ON places.id = reviews.place_id;
+
+-- Task 5: INNER JOIN to show important review log information only
+SELECT 
+    places.name, 
+    places.average_rating,
+    reviews.username,
+    reviews.rating,
+    reviews.review_date,
+    reviews.note
+FROM places
+JOIN reviews ON places.id = reviews.place_id;
+
+-- Task 6: LEFT JOIN to include all places, even without reviews
+SELECT 
+    places.name, 
+    places.average_rating,
+    reviews.username,
+    reviews.rating,
+    reviews.review_date,
+    reviews.note
+FROM places
+LEFT JOIN reviews ON places.id = reviews.place_id;
+
+-- LEFT JOIN includes places with no reviews, INNER JOIN only includes reviewed places
+
+-- Task 7: Find places without any reviews
+SELECT places.id, places.name
+FROM places
+LEFT JOIN reviews ON places.id = reviews.place_id
+WHERE reviews.place_id IS NULL;
+
+-- Task 8: Using WITH clause, select all reviews from 2020 joined with place names
+WITH latest_reviews AS (
+  SELECT * FROM reviews
+  WHERE strftime('%Y', review_date) = '2020'
+)
+SELECT 
+    latest_reviews.username,
+    latest_reviews.note,
+    places.name
+FROM latest_reviews
+LEFT JOIN places ON latest_reviews.place_id = places.id;
+
+-- Task 9: Identify reviewers whose average rating is below overall average rating
+WITH reviewer_average_rating AS (
+  SELECT AVG(rating) AS average_point
+  FROM reviews
+)
+SELECT 
+    reviews.id,
+    reviews.username,
+    AVG(reviews.rating) AS average_rating,
+    reviewer_average_rating.average_point
+FROM reviews
+CROSS JOIN reviewer_average_rating
+GROUP BY reviews.id, reviews.username
+HAVING average_rating < reviewer_average_rating.average_point;
