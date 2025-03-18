@@ -1,22 +1,24 @@
--- Previews
-SELECT * FROM employees LIMIT 10;
-SELECT * FROM projects LIMIT 10;
+-- Preview first 10 rows from employees table
+SELECT * FROM employees LIMIT 10; -- Shows first 10 records from 'employees'
 
--- Finds employees who have not chosen any project yet (current_project is NULL)
+-- Preview first 10 rows from projects table
+SELECT * FROM projects LIMIT 10; -- Shows first 10 records from 'projects'
+
+-- Find employees who have not chosen any project yet (current_project is NULL)
 SELECT first_name, last_name 
 FROM employees 
-WHERE current_project IS NULL;
+WHERE current_project IS NULL; -- Returns names of employees without assigned project
 
--- Finds projects not chosen by any employees using subquery and NOT IN
+-- Find projects that were not chosen by any employee using subquery and NOT IN
 SELECT project_name 
 FROM projects
 WHERE project_id NOT IN (
   SELECT current_project
   FROM employees
   WHERE current_project IS NOT NULL
-);
+); -- Returns project names not assigned to any employee
 
--- Identifies the project chosen by the most employees using JOIN, COUNT(), GROUP BY, ORDER BY, and LIMIT
+-- Find the project chosen by the most employees using JOIN, COUNT(), GROUP BY, ORDER BY, and LIMIT
 SELECT 
     projects.project_name AS most_crowded_project, 
     COUNT(employees.employee_id) AS employee_count
@@ -24,18 +26,18 @@ FROM projects
 JOIN employees ON projects.project_id = employees.current_project 
 GROUP BY projects.project_name
 ORDER BY employee_count DESC
-LIMIT 1;
+LIMIT 1; -- Returns project with highest number of employees assigned
 
--- Finds projects chosen by more than one employee (non-solo projects) using JOIN, COUNT(), GROUP BY, and HAVING
+-- Find projects chosen by more than one employee using HAVING
 SELECT 
     projects.project_name AS non_solo_projects,
     COUNT(employees.employee_id) AS employee_count
 FROM projects
 JOIN employees ON projects.project_id = employees.current_project 
 GROUP BY projects.project_name
-HAVING employee_count > 1;
+HAVING employee_count > 1; -- Returns projects chosen by multiple employees
 
--- Checks if there are enough available employees for projects that currently have only one employee assigned, assuming each project needs at least two employees
+-- Check if there are enough available employees to fill projects with only one employee assigned
 WITH available_projects AS (
   SELECT 
       projects.project_name AS available_projects,
@@ -43,12 +45,12 @@ WITH available_projects AS (
   FROM projects
   JOIN employees ON projects.project_id = employees.current_project 
   GROUP BY projects.project_name
-  HAVING employee_count = 1
+  HAVING employee_count = 1 -- Only projects with exactly 1 employee assigned
 ),
 available_employee_count AS (
   SELECT COUNT(*) AS count
   FROM employees 
-  WHERE current_project IS NULL
+  WHERE current_project IS NULL -- Counts employees without assigned project
 )
 SELECT 
     CASE 
@@ -57,9 +59,9 @@ SELECT
       WHEN (SELECT COUNT(*) FROM available_projects) < (SELECT count FROM available_employee_count)
           THEN 'Enough Employees'
       ELSE 'Right Enough Employees'
-    END AS employee_position_fill_status;
+    END AS employee_position_fill_status; -- Checks if available employees are enough to fill single-employee projects
 
--- Calculates how many additional developer positions need filling, assuming each project needs at least two developers
+-- Calculate how many additional developer positions are needed (each project needs at least two developers)
 SELECT 
   (COUNT(*) * 2) - (
     SELECT COUNT(*)
@@ -67,4 +69,75 @@ SELECT
     WHERE current_project IS NOT NULL
       AND position = 'Developer'
   ) AS positions_needed
-FROM projects;
+FROM projects; -- Calculates the gap between required developers and current ones
+
+-- Find the most common personality type among employees
+SELECT 
+  personality
+FROM employees
+GROUP BY personality
+ORDER BY COUNT(*) DESC
+LIMIT 1; -- Returns most frequent personality type
+
+-- Find projects chosen by employees with the most common personality type
+SELECT DISTINCT p.project_name
+FROM employees e
+JOIN projects p
+  ON p.project_id = e.current_project
+WHERE personality = (
+  SELECT personality
+  FROM employees
+  GROUP BY personality
+  ORDER BY COUNT(*) DESC
+  LIMIT 1
+); -- Returns project names chosen by most common personality type
+
+-- Find personality type most represented among employees with assigned projects
+SELECT last_name, first_name,
+       project_name, 
+       personality
+FROM employees e
+JOIN projects p
+  ON p.project_id = e.current_project
+WHERE personality = (
+  SELECT personality
+  FROM employees
+  WHERE current_project IS NOT NULL
+  GROUP BY personality
+  ORDER BY COUNT(personality) DESC
+  LIMIT 1
+); -- Returns employees and projects of most represented personality type
+
+-- For each employee, show name, personality, project, and number of incompatible coworkers
+SELECT first_name, 
+       last_name, 
+       personality,
+       project_name,
+       CASE 
+         WHEN e.personality = 'INFP' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+         WHEN e.personality = 'ENFP' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+         WHEN e.personality = 'INFJ' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+         WHEN e.personality = 'ENFJ' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+         WHEN e.personality = 'ISFP' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ'))
+         WHEN e.personality = 'ESFP' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+         WHEN e.personality = 'ISTP' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+         WHEN e.personality = 'ESTP' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+         WHEN e.personality = 'ISFJ' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+         WHEN e.personality = 'ESFJ' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+         WHEN e.personality = 'ESTJ' THEN (
+           SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+         ELSE 0
+       END AS incompatible_co_worker
+FROM employees e
+JOIN projects p
+  ON p.project_id = e.current_project; -- Shows for each employee their number of incompatible co-workers
