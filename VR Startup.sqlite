@@ -108,6 +108,7 @@ WHERE personality = (
   LIMIT 1
 ); -- Returns employees and projects of most represented personality type
 
+-- First path without creating schema table
 -- For each employee, show name, personality, project, and number of incompatible coworkers
 SELECT first_name, 
        last_name, 
@@ -141,3 +142,50 @@ SELECT first_name,
 FROM employees e
 JOIN projects p
   ON p.project_id = e.current_project; -- Shows for each employee their number of incompatible co-workers
+
+
+-- Second Path Creating Compatibility Table Schema
+-- This table will store incompatible personality pairs dynamically
+CREATE TABLE compatibility (
+  personality_type VARCHAR(10),
+  incompatible_with VARCHAR(10)
+);
+
+-- Insert sample data 
+INSERT INTO compatibility (personality_type, incompatible_with) VALUES
+  ('INFP', 'ISFP'), ('INFP', 'ESFP'), ('INFP', 'ISTP'), ('INFP', 'ESTP'), ('INFP', 'ISFJ'), ('INFP', 'ESFJ'), ('INFP', 'ISTJ'), ('INFP', 'ESTJ'),
+  ('ENFP', 'ISFP'), ('ENFP', 'ESFP'), ('ENFP', 'ISTP'), ('ENFP', 'ESTP'), ('ENFP', 'ISFJ'), ('ENFP', 'ESFJ'), ('ENFP', 'ISTJ'), ('ENFP', 'ESTJ'),
+  ('INFJ', 'ISFP'), ('INFJ', 'ESFP'), ('INFJ', 'ISTP'), ('INFJ', 'ESTP'), ('INFJ', 'ISFJ'), ('INFJ', 'ESFJ'), ('INFJ', 'ISTJ'), ('INFJ', 'ESTJ'),
+  ('ENFJ', 'ESFP'), ('ENFJ', 'ISTP'), ('ENFJ', 'ESTP'), ('ENFJ', 'ISFJ'), ('ENFJ', 'ESFJ'), ('ENFJ', 'ISTJ'), ('ENFJ', 'ESTJ'),
+  ('ISFP', 'INFP'), ('ISFP', 'ENFP'), ('ISFP', 'INFJ'),
+  ('ESFP', 'INFP'), ('ESFP', 'ENFP'), ('ESFP', 'INFJ'), ('ESFP', 'ENFJ'),
+  ('ISTP', 'INFP'), ('ISTP', 'ENFP'), ('ISTP', 'INFJ'), ('ISTP', 'ENFJ'),
+  ('ESTP', 'INFP'), ('ESTP', 'ENFP'), ('ESTP', 'INFJ'), ('ESTP', 'ENFJ'),
+  ('ISFJ', 'INFP'), ('ISFJ', 'ENFP'), ('ISFJ', 'INFJ'), ('ISFJ', 'ENFJ'),
+  ('ESFJ', 'INFP'), ('ESFJ', 'ENFP'), ('ESFJ', 'INFJ'), ('ESFJ', 'ENFJ'),
+  ('ISTJ', 'INFP'), ('ISTJ', 'ENFP'), ('ISTJ', 'INFJ'), ('ISTJ', 'ENFJ'),
+  ('ESTJ', 'INFP'), ('ESTJ', 'ENFP'), ('ESTJ', 'INFJ'), ('ESTJ', 'ENFJ');
+
+-- Improved Query to Dynamically Calculate Incompatible Coworkers
+SELECT 
+  e.first_name,
+  e.last_name,
+  e.personality,
+  p.project_name,
+  COUNT(DISTINCT inc.employee_id) AS incompatible_coworkers
+FROM employees e
+JOIN projects p ON e.current_project = p.project_id
+
+-- Match employee's personality to compatibility table
+LEFT JOIN compatibility c 
+  ON e.personality = c.personality_type 
+
+-- Join incompatible employees
+LEFT JOIN employees inc 
+  -- Join incompatible employees
+  ON inc.personality = c.incompatible_with 
+  -- Only count those on same project
+  AND inc.current_project = e.current_project 
+  -- Exclude self
+  AND inc.employee_id != e.employee_id 
+GROUP BY e.employee_id; 
