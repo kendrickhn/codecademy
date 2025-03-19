@@ -1,5 +1,4 @@
 # Codecademy SQL Projects
-
 This repository contains SQL exercises completed on Codecademy.
 
 ## Exercises Included:
