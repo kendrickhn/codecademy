@@ -1,0 +1,60 @@
+--.tables
+
+-- Lists organizations along with the number of systems each has produced, sorted from the highest to the lowest count.
+SELECT orgs.org_name, COUNT(systems.system) AS system_count
+FROM systems
+JOIN orgs ON systems.org_id = orgs.org_id
+GROUP BY orgs.org_name
+ORDER BY system_count DESC;
+
+-- Provides a list of organizations that are active in “Image generation” AI, showing the number of systems they have created, sorted by organization type.
+SELECT 
+    orgs.org_name, 
+    orgs.org_type, 
+    COUNT(systems.system) AS system_count
+FROM 
+    systems
+JOIN 
+    orgs ON systems.org_id = orgs.org_id
+JOIN 
+    problems ON systems.problem_id = problems.problem_id
+WHERE 
+    problems.task = 'Image generation'
+GROUP BY 
+    orgs.org_name, orgs.org_type
+ORDER BY 
+    orgs.org_type, system_count DESC;
+
+-- Count the number of AI systems in each year
+SELECT 
+    strftime('%Y', publication_date) AS year, 
+    COUNT(system) AS system_count
+FROM 
+    systems
+GROUP BY 
+    year
+ORDER BY 
+    year;
+
+-- Report the maximum number of parameters
+SELECT 
+    MAX(parameters) AS max_parameters
+FROM 
+    systems;
+
+-- Lists top 5 AI problems, along with the number of organizations that are working on each of those problems.
+SELECT 
+    problems.domain AS problem_domain,
+    problems.task AS problem_task,
+    COUNT(DISTINCT orgs.org_id) AS organization_count
+FROM 
+    systems
+JOIN 
+    orgs ON systems.org_id = orgs.org_id
+JOIN 
+    problems ON systems.problem_id = problems.problem_id
+GROUP BY 
+    problems.problem_id, problem_domain, problem_task
+ORDER BY 
+    organization_count DESC
+LIMIT 5;
