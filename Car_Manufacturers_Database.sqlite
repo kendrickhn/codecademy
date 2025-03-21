@@ -1,0 +1,77 @@
+
+--Retrieve all records from the 'fuels' table to understand its structure and data */
+SELECT * FROM fuels;
+
+--Retrieve the model name, year, and fuel type for vehicles that use electric fuel */
+SELECT models.model, models.year, fuels.fuel
+FROM models
+JOIN fuels ON models.fuel_id = fuels.fuel_id
+WHERE fuels.fuel = 'electric'
+ORDER BY models.year
+LIMIT 10;
+
+--Identify the manufacturer with the highest number of hybrid electric models */
+SELECT manufacturers.manufacturer, COUNT(models.model) AS num_hybrid_vehicles
+FROM models
+JOIN manufacturers ON models.manufacturer_id = manufacturers.manufacturer_id
+JOIN fuels ON models.fuel_id = fuels.fuel_id
+WHERE fuels.fuel = 'hybrid electric'
+GROUP BY manufacturers.manufacturer
+ORDER BY num_hybrid_vehicles DESC
+LIMIT 1;
+
+-- Calculate the average best MPGe (Miles Per Gallon equivalent) for each manufacturer and fuel type
+
+SELECT 
+    manufacturers.manufacturer,
+    fuels.fuel,                
+    AVG(models.best_mpge) AS avg_best_mpge 
+FROM 
+    manufacturers
+JOIN 
+    models ON manufacturers.manufacturer_id = models.manufacturer_id 
+JOIN 
+    fuels ON models.fuel_id = fuels.fuel_id 
+GROUP BY 
+    manufacturers.manufacturer, 
+    fuels.fuel                 
+ORDER BY 
+    manufacturers.manufacturer, 
+    avg_best_mpge DESC;      
+
+-- Count the number of vehicle models produced by each manufacturer for each fuel type
+
+SELECT
+    manufacturers.manufacturer AS manufacturer_name, 
+    fuels.fuel AS fuel_type,                        
+    COUNT(models.model_id) AS vehicle_count         
+FROM
+    manufacturers
+JOIN
+    models ON manufacturers.manufacturer_id = models.manufacturer_id 
+JOIN
+    fuels ON models.fuel_id = fuels.fuel_id 
+GROUP BY
+    manufacturers.manufacturer, 
+    fuels.fuel                 
+ORDER BY
+    manufacturers.manufacturer, 
+    vehicle_count DESC;        
+
+-- This SQL query retrieves a list of counts of car models for each manufacturer, fuel type, and year combination from a database
+
+SELECT  
+    manufacturers.manufacturer, 
+    fuels.fuel, 
+    models.year, 
+    COUNT(*) AS model_count 
+FROM  
+    models 
+JOIN  
+    manufacturers ON models.manufacturer_id = manufacturers.manufacturer_id 
+JOIN  
+    fuels ON models.fuel_id = fuels.fuel_id 
+GROUP BY  
+    manufacturers.manufacturer, fuels.fuel, models.year 
+ORDER BY  
+    manufacturers.manufacturer, fuels.fuel, models.year; 
