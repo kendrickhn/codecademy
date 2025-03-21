@@ -11,6 +11,7 @@ This repository contains SQL exercises completed on Codecademy.
 - [VR Startup](https://gist.github.com/codecademydev/62c9044d191f118ad40b458c560ac4ac)
 - [Car_Manufacturers](https://gist.github.com/codecademydev/822c2ec60038d9a0b704b09fdfd289f8)
 - [Epochai](https://gist.github.com/codecademydev/cdbff92950613863425c9f75859d1397)
+- [Warby_Parker_Usage_Funnels](https://gist.github.com/codecademydev/5c89417f3e464ca1cf84b68925ce2529)
 
 ## Goal:
 Tracking SQL learning progress from Codecademy courses.
