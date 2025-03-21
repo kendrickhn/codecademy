@@ -9,6 +9,7 @@ This repository contains SQL exercises completed on Codecademy.
 - [Welp Google Trip](https://gist.github.com/codecademydev/3f6133187e7778193562082f8a5f1ba6)
 - [Reddit Database](https://gist.github.com/codecademydev/244923b38c458ff1c8489bd599ec2d28)
 - [VR Startup](https://gist.github.com/codecademydev/62c9044d191f118ad40b458c560ac4ac)
+- [Car_Manufacturers](https://gist.github.com/codecademydev/822c2ec60038d9a0b704b09fdfd289f8)
 
 ## Goal:
 Tracking SQL learning progress from Codecademy courses.
