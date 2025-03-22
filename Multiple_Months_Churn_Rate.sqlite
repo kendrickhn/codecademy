@@ -1,0 +1,44 @@
+-- Define 'months' CTE to list the first and last days of each month in the analysis period
+WITH months AS (
+  SELECT '2017-01-01' AS first_day, '2017-01-31' AS last_day 
+  UNION 
+  SELECT '2017-02-01' AS first_day, '2017-02-28' AS last_day 
+  UNION 
+  SELECT '2017-03-01' AS first_day, '2017-03-31' AS last_day
+), 
+-- Create 'cross_join' CTE to combine each subscription with each month
+cross_join AS (
+  SELECT *
+  FROM subscriptions
+  CROSS JOIN months
+), 
+-- Define 'status' CTE to determine active and canceled subscriptions for each month
+status AS (
+  SELECT 
+    id, 
+    first_day AS month, 
+    CASE
+      WHEN subscription_start < first_day 
+        AND (subscription_end > first_day OR subscription_end IS NULL) THEN 1
+      ELSE 0
+    END AS is_active,  -- 1 if subscription was active at the start of the month, otherwise 0
+    CASE
+      WHEN subscription_end BETWEEN first_day AND last_day THEN 1
+      ELSE 0
+    END AS is_canceled  -- 1 if subscription ended within the month, otherwise 0
+  FROM cross_join
+), 
+-- Aggregate active and canceled subscriptions by month
+status_aggregate AS (
+  SELECT 
+    month, 
+    SUM(is_active) AS active, 
+    SUM(is_canceled) AS canceled 
+  FROM status 
+  GROUP BY month
+) 
+-- Calculate churn rate for each month
+SELECT
+  month, 
+  1.0 * canceled / active AS churn_rate
+FROM status_aggregate;
