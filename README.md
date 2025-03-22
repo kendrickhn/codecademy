@@ -12,6 +12,7 @@ This repository contains SQL exercises completed on Codecademy.
 - [Car_Manufacturers](https://gist.github.com/codecademydev/822c2ec60038d9a0b704b09fdfd289f8)
 - [Epochai](https://gist.github.com/codecademydev/cdbff92950613863425c9f75859d1397)
 - [Warby_Parker_Usage_Funnels](https://gist.github.com/codecademydev/5c89417f3e464ca1cf84b68925ce2529)
+- [Calculating Monthly Churn Rates Over Multiple Months](https://gist.github.com/codecademydev/10be929d67820affcf711f120c14313c)
 
 ## Goal:
 Tracking SQL learning progress from Codecademy courses.
