@@ -1,0 +1,27 @@
+-- Define 'enrollments' CTE to capture subscriptions active as of '2017-01-01'
+WITH enrollments AS (
+  SELECT * 
+  FROM subscriptions 
+  WHERE subscription_start < '2017-01-01'  -- Subscriptions that started before January 2017
+    AND (
+      subscription_end >= '2017-01-01'     -- Subscriptions that ended on or after January 2017
+      OR subscription_end IS NULL          -- Subscriptions that are still active
+    )
+), 
+-- Define 'status' CTE to determine active and canceled subscriptions within January 2017
+status AS (
+  SELECT 
+    CASE 
+      WHEN subscription_end > '2017-01-31' OR subscription_end IS NULL THEN 0
+      ELSE 1 
+    END AS is_canceled,  -- 1 if subscription ended on or before '2017-01-31', otherwise 0
+    CASE 
+      WHEN subscription_start < '2017-01-01' 
+        AND (subscription_end >= '2017-01-01' OR subscription_end IS NULL) THEN 1
+      ELSE 0
+    END AS is_active  -- 1 if subscription was active during January 2017, otherwise 0
+  FROM enrollments
+)
+-- Calculate churn rate as the ratio of canceled to active subscriptions
+SELECT 1.0 * SUM(is_canceled) / SUM(is_active) AS churn_rate
+FROM status;
