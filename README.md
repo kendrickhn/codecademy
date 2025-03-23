@@ -14,6 +14,7 @@ This repository contains SQL exercises completed on Codecademy.
 - [Warby_Parker_Usage_Funnels](https://gist.github.com/codecademydev/5c89417f3e464ca1cf84b68925ce2529)
 - [Calculating Monthly Churn Rates Over Multiple Months](https://gist.github.com/codecademydev/10be929d67820affcf711f120c14313c)
 - [Calculating Churn Rate for a Single Month](https://gist.github.com/codecademydev/7059bdad5235a0acf5bb7e6c35fa064e)
+- [Multi-Segments Codeflix Churn Rate](https://gist.github.com/codecademydev/fa5eb47b5605bfc17e2be6d9bb953e5d)
 
 ## Goal:
 Tracking SQL learning progress from Codecademy courses.
