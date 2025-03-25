@@ -1,141 +1,19 @@
--- Define the months of interest
-WITH months AS (
-  SELECT '2017-01-01' AS first_day, '2017-01-31' AS last_day
-  UNION
-  SELECT '2017-02-01' AS first_day, '2017-02-28' AS last_day
-  UNION
-  SELECT '2017-03-01' AS first_day, '2017-03-31' AS last_day
-),
-
--- Cross join subscriptions with months to evaluate status for each subscription-month pair
-cross_join AS (
-  SELECT *
-  FROM subscriptions
-  CROSS JOIN months
-),
-
--- Determine active and canceled status for segments 87 and 30
-status AS (
-  SELECT
-    id,
-    first_day AS month,
-
-    -- Segment 87 active: started before month and either not ended or ends after start of month
-    CASE
-      WHEN (subscription_start < first_day)
-        AND ((subscription_end > first_day) OR (subscription_end IS NULL))
-        AND (segment = 87)
-      THEN 1
-      ELSE 0
-    END AS is_active_87,
-
-    -- Segment 87 canceled: ends within current month
-    CASE
-      WHEN (subscription_end BETWEEN first_day AND last_day)
-        AND (segment = 87)
-      THEN 1
-      ELSE 0
-    END AS is_canceled_87,
-
-    -- Segment 30 active: same logic applied to segment 30
-    CASE
-      WHEN (subscription_start < first_day)
-        AND ((subscription_end > first_day) OR (subscription_end IS NULL))
-        AND (segment = 30)
-      THEN 1
-      ELSE 0
-    END AS is_active_30,
-
-    -- Segment 30 canceled: ends within current month
-    CASE
-      WHEN (subscription_end BETWEEN first_day AND last_day)
-        AND (segment = 30)
-      THEN 1
-      ELSE 0
-    END AS is_canceled_30
-
-  FROM cross_join
-),
-
--- Aggregate active and canceled counts by month
-status_aggregate AS (
-  SELECT
-    month,
-    SUM(is_active_87) AS sum_active_87,
-    SUM(is_canceled_87) AS sum_canceled_87,
-    SUM(is_active_30) AS sum_active_30,
-    SUM(is_canceled_30) AS sum_canceled_30
-  FROM status
-  GROUP BY month
+-- Get the most recent page visit timestamp for each user
+WITH last_touch AS (
+  SELECT 
+    user_id, 
+    MAX(timestamp) AS last_touch_at  -- The latest timestamp per user
+  FROM page_visits
+  GROUP BY user_id
 )
 
--- Calculate churn rates for each segment by month
-SELECT
-  month,
-  ROUND(1.0 * sum_canceled_87 / sum_active_87, 2) AS s87_churn_rate,
-  ROUND(1.0 * sum_canceled_30 / sum_active_30, 2) AS s30_churn_rate
-FROM status_aggregate
-ORDER BY month;
-----------------------------------------------
--- MODIFIED CODE TO SUPPORT LARGE NUMBER OF SEGMENTS
-
--- Define the months of interest
-WITH months AS (
-  SELECT '2017-01-01' AS first_day, '2017-01-31' AS last_day
-  UNION
-  SELECT '2017-02-01' AS first_day, '2017-02-28' AS last_day
-  UNION
-  SELECT '2017-03-01' AS first_day, '2017-03-31' AS last_day
-),
-
--- Cross join subscriptions with months to evaluate status for each subscription-month pair
-cross_join AS (
-  SELECT *
-  FROM subscriptions
-  CROSS JOIN months
-),
-
--- Determine active and canceled status for each segment dynamically
-status AS (
-  SELECT
-    id,
-    segment,
-    first_day AS month,
-
-    -- Active: started before month and either not ended or ends after start of month
-    CASE
-      WHEN (subscription_start < first_day)
-        AND ((subscription_end > first_day) OR (subscription_end IS NULL))
-      THEN 1
-      ELSE 0
-    END AS is_active,
-
-    -- Canceled: ends within current month
-    CASE
-      WHEN subscription_end BETWEEN first_day AND last_day
-      THEN 1
-      ELSE 0
-    END AS is_canceled
-
-  FROM cross_join
-),
-
--- Aggregate active and canceled counts by segment and month
-status_aggregate AS (
-  SELECT
-    month,
-    segment,
-    SUM(is_active) AS sum_active,
-    SUM(is_canceled) AS sum_canceled
-  FROM status
-  GROUP BY month, segment
-)
-
--- Calculate churn rates for each segment by month
-SELECT
-  month,
-  segment,
-  ROUND(1.0 * sum_canceled / sum_active, 2) AS churn_rate
-FROM status_aggregate
-ORDER BY month, segment;
-
+-- Join the last_touch data back to the original page_visits table
+-- to retrieve the utm_source associated with the user's last visit
+SELECT 
+  lt.user_id,
+  lt.last_touch_at,
+  pv.utm_source
+FROM last_touch lt
+JOIN page_visits pv
+  ON lt.user_id = pv.user_id
+  AND lt.last_touch_at = pv.timestamp;  -- Ensures we're matching only the last visit
