@@ -133,7 +133,7 @@ GROUP BY pv.utm_campaign;
 
 ---
 
-## Last-Touch Attribution
+## 4. Last-Touch Attribution
 
 **Query:**
 
@@ -163,7 +163,7 @@ GROUP BY pv.utm_campaign;
 
 ---
 
-## 4. Purchase Attribution
+## 5. Purchase Attribution
 
 ### Total Purchases
 
@@ -210,7 +210,7 @@ GROUP BY pv.utm_campaign;
 
 ---
 
-## 5. Recommendation: Campaigns to Reinforce
+## 6. Recommendation: Campaigns to Reinforce
 
 Based on the above metrics, CoolTShirts should consider reinvesting in the following 5 campaigns:
 
