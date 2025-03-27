@@ -42,7 +42,7 @@
 - **Personalized Follow-Ups:** Implement targeted follow-up communications for users who drop off at specific quiz stages or do not proceed to purchase after the Home Try-On, addressing potential concerns or offering assistance.
 
 
-```md
+
 # CoolTShirts Marketing Attribution Report
 
 This report analyzes user behavior on CoolTShirts' website to evaluate the performance of different marketing campaigns. The goal is to determine which campaigns contribute most to user engagement and conversions, using both **first-touch** and **last-touch** attribution models.
@@ -57,7 +57,7 @@ This report analyzes user behavior on CoolTShirts' website to evaluate the perfo
 SELECT COUNT(DISTINCT utm_campaign),
        COUNT(DISTINCT utm_source)
 FROM page_visits;
-```
+
 
 **Result:**
 
@@ -87,7 +87,7 @@ FROM page_visits;
 
 ---
 
-## 🧭 Website Journey
+## Website Journey
 
 **Query:**
 
