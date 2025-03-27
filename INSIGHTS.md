@@ -1,4 +1,4 @@
-# Warby Parker Customer Journey Insights
+# I. Warby Parker Customer Journey Insights
 
 ## 1. Quiz Funnel Analysis
 
@@ -43,13 +43,13 @@
 
 
 
-# CoolTShirts Marketing Attribution Report
+# II. CoolTShirts Marketing Attribution Report
 
 This report analyzes user behavior on CoolTShirts' website to evaluate the performance of different marketing campaigns. The goal is to determine which campaigns contribute most to user engagement and conversions, using both **first-touch** and **last-touch** attribution models.
 
 ---
 
-## Campaign & Source Overview
+## 1. Campaign & Source Overview
 
 **Query:**
 
@@ -87,7 +87,7 @@ FROM page_visits;
 
 ---
 
-## Website Journey
+## 2. Website Journey
 
 **Query:**
 
@@ -105,7 +105,7 @@ FROM page_visits;
 
 ---
 
-## First-Touch Attribution
+## 3. First-Touch Attribution
 
 **Query:**
 
@@ -163,7 +163,7 @@ GROUP BY pv.utm_campaign;
 
 ---
 
-## Purchase Attribution
+## 4. Purchase Attribution
 
 ### Total Purchases
 
@@ -210,7 +210,7 @@ GROUP BY pv.utm_campaign;
 
 ---
 
-## Recommendation: Campaigns to Reinforce
+## 5. Recommendation: Campaigns to Reinforce
 
 Based on the above metrics, CoolTShirts should consider reinvesting in the following 5 campaigns:
 
