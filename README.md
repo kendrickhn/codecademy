@@ -15,7 +15,7 @@ This repository contains SQL exercises completed on Codecademy.
 - [Calculating Monthly Churn Rates Over Multiple Months](https://gist.github.com/codecademydev/10be929d67820affcf711f120c14313c)
 - [Calculating Churn Rate for a Single Month](https://gist.github.com/codecademydev/7059bdad5235a0acf5bb7e6c35fa064e)
 - [Multi-Segments Codeflix Churn Rate](https://gist.github.com/codecademydev/fa5eb47b5605bfc17e2be6d9bb953e5d)
-- [First_Last_Touch_Attribute](https://gist.github.com/codecademydev/8a2e8a99523a260ca376410242416231e)
+- [First_Last_Touch_Attribute](https://gist.github.com/codecademydev/93760488069d3043a5103eb6a6f9a895)
 
 
 ## Goal:
