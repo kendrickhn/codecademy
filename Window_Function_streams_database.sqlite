@@ -32,3 +32,48 @@ SELECT
    ) AS most_posts
 FROM
    social_media;
+
+-- Retrieve the number of streams for 'Lady Gaga' and the previous week's streams
+SELECT
+   artist,
+   week,
+   streams_millions,
+   LAG(streams_millions, 1, 0) OVER (
+      ORDER BY week 
+   ) AS previous_week_streams 
+FROM
+   streams 
+WHERE
+   artist = 'Lady Gaga';
+
+-- Calculate the weekly change in streams for 'Lady Gaga'
+SELECT 
+  artist, 
+  week, 
+  streams_millions,
+  streams_millions - LAG(streams_millions, 1, streams_millions) OVER (
+    ORDER BY week 
+  ) AS streams_millions_change
+FROM 
+    streams
+WHERE
+    artist = 'Lady Gaga';
+
+-- Determine the weekly change in streams and chart position for 'Lady Gaga'
+SELECT
+   artist,
+   week,
+   streams_millions,
+   streams_millions - LAG(streams_millions, 1, streams_millions) OVER ( 
+      PARTITION BY artist
+      ORDER BY week 
+   ) AS streams_millions_change,
+   chart_position,
+   LAG(chart_position, 1, chart_position) OVER ( 
+      PARTITION BY artist
+      ORDER BY week 
+   ) - chart_position AS chart_position_change
+FROM
+   streams
+WHERE 
+   artist = 'Lady Gaga';
