@@ -106,3 +106,26 @@ SELECT
     ) AS 'chart_position_change'
 FROM
     streams;
+
+-- Assigns row numbers to each record sorted by streams in ascending order (lowest to highest)
+SELECT 
+   ROW_NUMBER() OVER (
+      ORDER BY streams_millions
+   ) AS 'row_num', 
+   artist, 
+   week,
+   streams_millions
+FROM
+   streams;
+
+-- Assigns row numbers to each record sorted by streams in descending order (highest to lowest)
+SELECT 
+  ROW_NUMBER() OVER (
+    ORDER BY streams_millions DESC
+  ) AS 'row_num', 
+  artist, 
+  week, 
+  streams_millions
+FROM 
+  streams; 
+
