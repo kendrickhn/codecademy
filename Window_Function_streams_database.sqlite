@@ -153,3 +153,28 @@ FROM
    streams;
 
 
+-- Divides all artists into 5 equal groups based on descending streams across the entire dataset
+SELECT 
+   NTILE(5) OVER (
+      ORDER BY streams_millions DESC
+   ) AS 'weekly_streams_group', 
+   artist, 
+   week,
+   streams_millions
+FROM
+   streams;
+
+-- Divides artists each week into quartiles (4 equal groups) based on descending streams, resetting each week
+SELECT 
+   NTILE(4) OVER (
+      PARTITION BY week
+      ORDER BY streams_millions DESC
+   ) AS 'quartile', 
+   artist, 
+   week,
+   streams_millions
+FROM
+   streams;
+
+
+
