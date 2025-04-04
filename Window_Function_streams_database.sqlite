@@ -129,3 +129,27 @@ SELECT
 FROM 
   streams; 
 
+-- Ranks all records based on streams in ascending order, assigning identical ranks to ties
+SELECT 
+   RANK() OVER (
+      ORDER BY streams_millions 
+   ) AS 'rank', 
+   artist, 
+   week,
+   streams_millions
+FROM
+   streams;
+
+-- Assigns weekly rankings to artists based on descending stream counts, restarting ranks each week
+SELECT 
+   RANK() OVER (
+      PARTITION BY week
+      ORDER BY streams_millions DESC
+   ) AS 'rank', 
+   artist, 
+   week,
+   streams_millions
+FROM
+   streams;
+
+
