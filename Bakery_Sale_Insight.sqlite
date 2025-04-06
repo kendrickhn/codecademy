@@ -22,3 +22,11 @@ SELECT
 FROM sales
 GROUP BY sales_date
 ORDER BY daily_revenue DESC;
+
+-- 4. Average Discount Given per Item
+SELECT
+  item_name,
+  ROUND(AVG(CAST(REPLACE(discount, ' off', '') AS FLOAT)), 2) AS average_discount
+FROM sales
+GROUP BY item_name
+ORDER BY average_discount DESC;
