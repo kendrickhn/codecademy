@@ -1,0 +1,7 @@
+-- 1. Total Revenue per Item (Considering Discounts)
+SELECT
+  item_name,
+  ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS total_revenue
+FROM sales
+GROUP BY item_name
+ORDER BY total_revenue DESC;
