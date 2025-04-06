@@ -30,3 +30,12 @@ SELECT
 FROM sales
 GROUP BY item_name
 ORDER BY average_discount DESC;
+
+-- 5. Items Frequently Purchased in Large Quantities (greater than 20 per transaction)
+SELECT
+  item_name,
+  COUNT(*) AS large_order_count
+FROM sales
+WHERE quantity > 20
+GROUP BY item_name
+ORDER BY large_order_count DESC;
