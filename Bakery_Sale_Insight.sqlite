@@ -5,3 +5,12 @@ SELECT
 FROM sales
 GROUP BY item_name
 ORDER BY total_revenue DESC;
+
+-- 2. Identify the Most Popular Item by Quantity Sold
+SELECT
+  item_name,
+  SUM(quantity) AS total_quantity_sold
+FROM sales
+GROUP BY item_name
+ORDER BY total_quantity_sold DESC
+LIMIT 1;
