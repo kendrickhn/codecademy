@@ -2,7 +2,7 @@
 SELECT
   item_name,
   ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS total_revenue
-FROM sales
+FROM bakery
 GROUP BY item_name
 ORDER BY total_revenue DESC;
 
@@ -10,7 +10,7 @@ ORDER BY total_revenue DESC;
 SELECT
   item_name,
   SUM(quantity) AS total_quantity_sold
-FROM sales
+FROM bakery
 GROUP BY item_name
 ORDER BY total_quantity_sold DESC
 LIMIT 1;
@@ -19,7 +19,7 @@ LIMIT 1;
 SELECT
   DATE(order_date) AS sales_date,
   ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS daily_revenue
-FROM sales
+FROM bakery
 GROUP BY sales_date
 ORDER BY daily_revenue DESC;
 
@@ -27,7 +27,7 @@ ORDER BY daily_revenue DESC;
 SELECT
   item_name,
   ROUND(AVG(CAST(REPLACE(discount, ' off', '') AS FLOAT)), 2) AS average_discount
-FROM sales
+FROM bakery
 GROUP BY item_name
 ORDER BY average_discount DESC;
 
@@ -35,7 +35,7 @@ ORDER BY average_discount DESC;
 SELECT
   item_name,
   COUNT(*) AS large_order_count
-FROM sales
+FROM bakery
 WHERE quantity > 20
 GROUP BY item_name
 ORDER BY large_order_count DESC;
