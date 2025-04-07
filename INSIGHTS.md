@@ -226,4 +226,108 @@ Based on the above metrics, CoolTShirts should consider reinvesting in the follo
    → High first-touch and moderate last-touch/purchase performance
 
 These campaigns demonstrate the strongest engagement and ROI potential across the funnel.
-```
+
+
+# III. Bakery Sales Insights
+
+## 1. Revenue Analysis
+
+| Item Name | Total Revenue ($) |
+|-----------|-------------------|
+| Sandwich  | 719.25            |
+| Coffee    | 516.00            |
+| Cookie    | 213.50            |
+| Donut     | 194.40            |
+| Bagel     | 168.00            |
+
+**Observations:**
+
+- **Top Performer:** Sandwiches generate significantly more revenue compared to other items.
+- **Strong Secondary Item:** Coffee contributes notably to overall revenue despite high average discounts.
+
+**Insights:**
+
+- Prioritize maintaining or expanding sandwich offerings due to high revenue.
+- Consider strategies to further promote coffee sales while managing discounts effectively.
+
+## 2. Popularity Analysis
+
+| Most Popular Item | Total Quantity Sold |
+|-------------------|---------------------|
+| Sandwich          | 137                 |
+
+**Observations:**
+
+- Sandwiches are clearly the most preferred item based on total quantity sold.
+
+**Insights:**
+
+- Ensure consistent availability of sandwiches, possibly enhancing variations to attract more customers.
+
+## 3. Daily Revenue Trends
+
+| Sales Date  | Daily Revenue ($) |
+|-------------|-------------------|
+| 2020-08-16  | 443.45            |
+| 2020-08-20  | 371.55            |
+| 2020-08-17  | 366.80            |
+| 2020-08-21  | 252.00            |
+| 2020-08-18  | 230.35            |
+| 2020-08-19  | 147.00            |
+
+**Observations:**
+
+- **Peak Revenue:** Highest sales occur on August 16, suggesting a weekend boost or promotional impact.
+- **Mid-week Slump:** Noticeably lower sales on August 19, indicating a possible mid-week decrease in customer traffic.
+
+**Insights:**
+
+- Consider mid-week promotions or special offers to increase weekday sales.
+- Investigate factors contributing to peak weekend sales and replicate these conditions regularly.
+
+## 4. Discount Analysis
+
+| Item Name | Average Discount ($) |
+|-----------|----------------------|
+| Coffee    | 1.00                 |
+| Sandwich  | 0.75                 |
+| Cookie    | 0.25                 |
+| Donut     | 0.20                 |
+| Bagel     | 0.10                 |
+
+**Observations:**
+
+- Coffee has the highest average discount.
+- Bagels have minimal discounts, likely contributing to lower total sales.
+
+**Insights:**
+
+- Evaluate coffee discounts to balance profitability and sales volume.
+- Small increases in bagel discounts might significantly boost sales volumes.
+
+## 5. Large Quantity Orders
+
+| Item Name | Large Order Count (>20 units) |
+|-----------|-------------------------------|
+| Coffee    | 4                             |
+| Bagel     | 4                             |
+| Sandwich  | 3                             |
+| Cookie    | 3                             |
+| Donut     | 2                             |
+
+**Observations:**
+
+- Coffee and bagels attract the highest number of large quantity orders.
+
+**Insights:**
+
+- Offer special bulk-order discounts or promotional bundles, especially targeting coffee and bagels, to further encourage large purchases.
+
+## Recommendations
+
+- **Enhance Sandwich Offerings:** Capitalize on sandwich popularity by introducing specials or new flavors.
+- **Mid-week Promotions:** Counter mid-week revenue dips with targeted promotional efforts.
+- **Adjust Discount Strategies:** Reassess discount levels for coffee and bagels to optimize sales volume and profitability.
+- **Bulk Purchase Incentives:** Implement or improve bulk-buy promotions, particularly for coffee and bagels, to boost large-quantity orders.
+
+'''
