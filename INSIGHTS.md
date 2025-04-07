@@ -250,6 +250,16 @@ These campaigns demonstrate the strongest engagement and ROI potential across th
 - Prioritize maintaining or expanding sandwich offerings due to high revenue.
 - Consider strategies to further promote coffee sales while managing discounts effectively.
 
+**Query Used:**
+```sql
+SELECT
+  item_name,
+  ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS total_revenue
+FROM bakery
+GROUP BY item_name
+ORDER BY total_revenue DESC;
+```
+
 ## 2. Popularity Analysis
 
 | Most Popular Item | Total Quantity Sold |
@@ -263,6 +273,17 @@ These campaigns demonstrate the strongest engagement and ROI potential across th
 **Insights:**
 
 - Ensure consistent availability of sandwiches, possibly enhancing variations to attract more customers.
+
+**Query Used:**
+```sql
+SELECT
+  item_name,
+  SUM(quantity) AS total_quantity_sold
+FROM bakery
+GROUP BY item_name
+ORDER BY total_quantity_sold DESC
+LIMIT 1;
+```
 
 ## 3. Daily Revenue Trends
 
@@ -285,6 +306,16 @@ These campaigns demonstrate the strongest engagement and ROI potential across th
 - Consider mid-week promotions or special offers to increase weekday sales.
 - Investigate factors contributing to peak weekend sales and replicate these conditions regularly.
 
+**Query Used:**
+```sql
+SELECT
+  DATE(order_date) AS sales_date,
+  ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS daily_revenue
+FROM bakery
+GROUP BY sales_date
+ORDER BY daily_revenue DESC;
+```
+
 ## 4. Discount Analysis
 
 | Item Name | Average Discount ($) |
@@ -305,6 +336,16 @@ These campaigns demonstrate the strongest engagement and ROI potential across th
 - Evaluate coffee discounts to balance profitability and sales volume.
 - Small increases in bagel discounts might significantly boost sales volumes.
 
+**Query Used:**
+```sql
+SELECT
+  item_name,
+  ROUND(AVG(CAST(REPLACE(discount, ' off', '') AS FLOAT)), 2) AS average_discount
+FROM bakery
+GROUP BY item_name
+ORDER BY average_discount DESC;
+```
+
 ## 5. Large Quantity Orders
 
 | Item Name | Large Order Count (>20 units) |
@@ -323,11 +364,24 @@ These campaigns demonstrate the strongest engagement and ROI potential across th
 
 - Offer special bulk-order discounts or promotional bundles, especially targeting coffee and bagels, to further encourage large purchases.
 
+**Query Used:**
+```sql
+SELECT
+  item_name,
+  COUNT(*) AS large_order_count
+FROM bakery
+WHERE quantity > 20
+GROUP BY item_name
+ORDER BY large_order_count DESC;
+```
+
 ## Recommendations
 
 - **Enhance Sandwich Offerings:** Capitalize on sandwich popularity by introducing specials or new flavors.
 - **Mid-week Promotions:** Counter mid-week revenue dips with targeted promotional efforts.
 - **Adjust Discount Strategies:** Reassess discount levels for coffee and bagels to optimize sales volume and profitability.
 - **Bulk Purchase Incentives:** Implement or improve bulk-buy promotions, particularly for coffee and bagels, to boost large-quantity orders.
+
+
 
 '''

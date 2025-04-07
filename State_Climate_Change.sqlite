@@ -1,0 +1,41 @@
+-- 1. Total Revenue per Item (Considering Discounts)
+SELECT
+  item_name,
+  ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS total_revenue
+FROM bakery
+GROUP BY item_name
+ORDER BY total_revenue DESC;
+
+-- 2. Identify the Most Popular Item by Quantity Sold
+SELECT
+  item_name,
+  SUM(quantity) AS total_quantity_sold
+FROM bakery
+GROUP BY item_name
+ORDER BY total_quantity_sold DESC
+LIMIT 1;
+
+-- 3. Daily Revenue to Analyze Peak Sales Days
+SELECT
+  DATE(order_date) AS sales_date,
+  ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS daily_revenue
+FROM bakery
+GROUP BY sales_date
+ORDER BY daily_revenue DESC;
+
+-- 4. Average Discount Given per Item
+SELECT
+  item_name,
+  ROUND(AVG(CAST(REPLACE(discount, ' off', '') AS FLOAT)), 2) AS average_discount
+FROM bakery
+GROUP BY item_name
+ORDER BY average_discount DESC;
+
+-- 5. Items Frequently Purchased in Large Quantities (greater than 20 per transaction)
+SELECT
+  item_name,
+  COUNT(*) AS large_order_count
+FROM bakery
+WHERE quantity > 20
+GROUP BY item_name
+ORDER BY large_order_count DESC;
