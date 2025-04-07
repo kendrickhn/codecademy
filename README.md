@@ -18,6 +18,7 @@ This repository contains SQL exercises completed on Codecademy.
 - [First_Last_Touch_Attribute](https://gist.github.com/codecademydev/93760488069d3043a5103eb6a6f9a895)
 - [Window_Function_Streams](https://gist.github.com/codecademydev/8a8ddd7e6df66c83a63391285e677d2a)
 - [Bakery_Sale_Insight](https://gist.github.com/codecademydev/bb7c7aacf249a17159a34ecfca068c8b)
+- [State_Climate_Change](https://gist.github.com/codecademydev/47e4fb7366d6aa03b92141852d347a4d)
 
 ## Goal:
 Tracking SQL learning progress from Codecademy courses.
