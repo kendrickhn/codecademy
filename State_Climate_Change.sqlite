@@ -1,41 +1,89 @@
--- 1. Total Revenue per Item (Considering Discounts)
-SELECT
-  item_name,
-  ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS total_revenue
-FROM bakery
-GROUP BY item_name
-ORDER BY total_revenue DESC;
+-- Retrieve all columns and rows from the state_climate table
+SELECT * 
+FROM state_climate;
 
--- 2. Identify the Most Popular Item by Quantity Sold
-SELECT
-  item_name,
-  SUM(quantity) AS total_quantity_sold
-FROM bakery
-GROUP BY item_name
-ORDER BY total_quantity_sold DESC
-LIMIT 1;
+-- Calculate running average temperature in Celsius for each state over the years
+SELECT 
+    state, 
+    year, 
+    tempf, 
+    tempc, 
+    AVG(tempc) OVER (PARTITION BY state ORDER BY year) AS running_avg_tempc
+FROM 
+    state_climate;
 
--- 3. Daily Revenue to Analyze Peak Sales Days
-SELECT
-  DATE(order_date) AS sales_date,
-  ROUND(SUM((price - CAST(REPLACE(discount, ' off', '') AS FLOAT)) * quantity), 2) AS daily_revenue
-FROM bakery
-GROUP BY sales_date
-ORDER BY daily_revenue DESC;
+-- Find the lowest temperature for each state
+SELECT 
+    state, 
+    year, 
+    tempc, 
+    FIRST_VALUE(tempc) OVER (PARTITION BY state ORDER BY year) AS lowest_temp
+FROM 
+    state_climate;
 
--- 4. Average Discount Given per Item
-SELECT
-  item_name,
-  ROUND(AVG(CAST(REPLACE(discount, ' off', '') AS FLOAT)), 2) AS average_discount
-FROM bakery
-GROUP BY item_name
-ORDER BY average_discount DESC;
+-- Find the highest temperature for each state
+SELECT 
+    state, 
+    year, 
+    tempc,
+    LAST_VALUE(tempc) OVER (
+        PARTITION BY state 
+        ORDER BY tempc 
+        RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS highest_temp
+FROM 
+    state_climate;
 
--- 5. Items Frequently Purchased in Large Quantities (greater than 20 per transaction)
-SELECT
-  item_name,
-  COUNT(*) AS large_order_count
-FROM bakery
-WHERE quantity > 20
-GROUP BY item_name
-ORDER BY large_order_count DESC;
+-- Calculate the change in temperature from the previous year for each state
+SELECT 
+    state, 
+    year, 
+    tempc, 
+    (tempc - LAG(tempc, 1, tempc) OVER (
+        PARTITION BY state
+        ORDER BY year
+    )) AS change_in_temp
+FROM 
+    state_climate
+WHERE 
+    year > (SELECT MIN(year) FROM state_climate)
+ORDER BY 
+    change_in_temp DESC;
+
+-- Rank the coldest temperatures across all states and years
+SELECT 
+    RANK() OVER (ORDER BY tempc) AS coldest_temp_rank, 
+    year, 
+    state, 
+    tempc
+FROM 
+    state_climate
+LIMIT 10;
+
+-- Rank the hottest temperatures for each state
+SELECT 
+    RANK() OVER (PARTITION BY state ORDER BY tempc DESC) AS hot_temp_rank_by_state,
+    year, 
+    state, 
+    tempc
+FROM 
+    state_climate
+LIMIT 10;
+
+-- Divide temperatures into quartiles for each state
+SELECT 
+    NTILE(4) OVER (PARTITION BY state ORDER BY tempc) AS quartile, 
+    year, 
+    state, 
+    tempc
+FROM 
+    state_climate;
+
+-- Divide temperatures into quintiles across all states
+SELECT 
+    NTILE(5) OVER (ORDER BY tempc) AS quintile, 
+    year, 
+    state, 
+    tempc
+FROM 
+    state_climate;
