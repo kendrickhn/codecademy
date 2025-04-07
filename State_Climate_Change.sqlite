@@ -2,13 +2,13 @@
 SELECT * 
 FROM state_climate;
 
--- Calculate running average temperature in Celsius for each state over the years
+-- Calculate running average temperature in Celsius for each state over the years using a window function
 SELECT 
     state, 
     year, 
     tempf, 
     tempc, 
-    AVG(tempc) OVER (PARTITION BY state ORDER BY year) AS running_avg_tempc
+    AVG(tempc) OVER (PARTITION BY state ORDER BY year ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_avg_tempc
 FROM 
     state_climate;
 
@@ -17,7 +17,7 @@ SELECT
     state, 
     year, 
     tempc, 
-    FIRST_VALUE(tempc) OVER (PARTITION BY state ORDER BY year) AS lowest_temp
+    MIN(tempc) OVER (PARTITION BY state) AS lowest_temp
 FROM 
     state_climate;
 
