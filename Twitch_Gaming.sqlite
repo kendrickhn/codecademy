@@ -83,3 +83,15 @@ SELECT login, COUNT(*)
 FROM chat
 GROUP BY login
 ORDER BY COUNT(*) DESC;
+
+-- Count the number of occurrences for each device in the stream table
+SELECT device_id, COUNT(*)
+FROM stream
+GROUP BY device_id
+ORDER BY COUNT(*) DESC;
+
+-- Count the number of occurrences for each device in the chat table
+SELECT device_id, COUNT(*)
+FROM chat
+GROUP BY device_id
+ORDER BY COUNT(*) DESC;
