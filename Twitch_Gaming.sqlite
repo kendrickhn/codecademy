@@ -48,3 +48,14 @@ FROM stream
 GROUP BY game
 ORDER BY COUNT(*) DESC;
 
+-- Count the number of entries per hour in the stream table
+SELECT strftime('%H', time) AS hour, 
+  COUNT(*) AS view_count
+FROM stream
+GROUP BY hour;
+
+-- Join the stream and chat tables on device_id
+SELECT * 
+FROM stream s
+JOIN chat c
+ON s.device_id = c.device_id;
