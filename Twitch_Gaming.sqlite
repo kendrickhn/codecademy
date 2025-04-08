@@ -1,0 +1,30 @@
+-- Select the first 20 rows from the stream table
+SELECT * 
+FROM stream 
+LIMIT 20;
+
+-- Select the first 20 rows from the chat table
+SELECT * 
+FROM chat 
+LIMIT 20;
+
+-- Get unique games from the stream table
+SELECT DISTINCT game 
+FROM stream;
+
+-- Get unique channels from the stream table
+SELECT DISTINCT channel 
+FROM stream;
+
+-- Count the number of viewers for each game
+SELECT game, COUNT(*) 
+FROM stream 
+GROUP BY game 
+ORDER BY COUNT(*) DESC;
+
+-- Count the number of League of Legends viewers by country
+SELECT country, COUNT(*) 
+FROM stream 
+WHERE game = 'League of Legends' 
+GROUP BY country 
+ORDER BY COUNT(*) DESC;
