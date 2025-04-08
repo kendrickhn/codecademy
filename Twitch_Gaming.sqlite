@@ -28,3 +28,23 @@ FROM stream
 WHERE game = 'League of Legends' 
 GROUP BY country 
 ORDER BY COUNT(*) DESC;
+
+-- Count the number of occurrences for each player
+SELECT player, COUNT(*)
+FROM stream 
+GROUP BY player 
+ORDER BY COUNT(*) DESC;
+
+-- Categorize games into genres and count occurrences
+SELECT game, 
+  CASE 
+    WHEN game = 'League of Legends' OR game = 'Dota 2' OR game = 'Heroes of the Storm' THEN 'MOBA'
+    WHEN game = 'Counter-Strike: Global Offensive' THEN 'FPS'
+    WHEN game = 'DayZ' OR game = 'ARK: Survival Evolved' THEN 'Survival' 
+    ELSE 'Other'
+  END AS genre, 
+  COUNT(*)
+FROM stream
+GROUP BY game
+ORDER BY COUNT(*) DESC;
+
