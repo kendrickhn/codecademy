@@ -59,3 +59,16 @@ SELECT *
 FROM stream s
 JOIN chat c
 ON s.device_id = c.device_id;
+
+-- Count the number of occurrences for each channel in the stream table
+SELECT channel, COUNT(*)
+FROM stream
+GROUP BY channel
+ORDER BY COUNT(*) DESC;
+
+-- Count the number of occurrences for each channel in the chat table
+SELECT channel, COUNT(*)
+FROM chat
+GROUP BY channel
+ORDER BY COUNT(*) DESC;
+
