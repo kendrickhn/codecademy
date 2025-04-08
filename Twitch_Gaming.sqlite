@@ -95,3 +95,15 @@ SELECT device_id, COUNT(*)
 FROM chat
 GROUP BY device_id
 ORDER BY COUNT(*) DESC;
+
+-- Count the number of occurrences for each country in the stream table
+SELECT country, COUNT(*)
+FROM stream
+GROUP BY country
+ORDER BY COUNT(*) DESC;
+
+-- Count the number of occurrences for each country in the chat table
+SELECT country, COUNT(*)
+FROM chat
+GROUP BY country
+ORDER BY COUNT(*) DESC;
