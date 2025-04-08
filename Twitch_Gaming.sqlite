@@ -72,3 +72,14 @@ FROM chat
 GROUP BY channel
 ORDER BY COUNT(*) DESC;
 
+-- Count the number of occurrences for each user in the stream table
+SELECT login, COUNT(*)
+FROM stream
+GROUP BY login
+ORDER BY COUNT(*) DESC;
+
+-- Count the number of occurrences for each user in the chat table
+SELECT login, COUNT(*)
+FROM chat
+GROUP BY login
+ORDER BY COUNT(*) DESC;
