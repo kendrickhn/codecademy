@@ -107,3 +107,9 @@ SELECT country, COUNT(*)
 FROM chat
 GROUP BY country
 ORDER BY COUNT(*) DESC;
+
+-- Count the number of subscribers and non-subscribers
+SELECT subscriber, COUNT(*)
+FROM stream
+GROUP BY subscriber
+ORDER BY COUNT(*) DESC;
