@@ -1,24 +1,57 @@
 # Codecademy SQL Projects
-This repository contains SQL exercises completed on Codecademy.
 
-## Exercises Included:
-- [Davie's Burgers Subway Ad Project](https://gist.github.com/codecademydev/06fb091fbbc01d115414d6f61a54985a)
-- [TechCrunch Startups](https://gist.github.com/codecademydev/c5a15ca41ec2011c254015c60353436d)
-- [Hackers_News](https://gist.github.com/codecademydev/bda1be9cb73762ed685138a411561feb)
-- [Lyft Trip Data](https://gist.github.com/codecademydev/69d3f471f4f3ea5b9ebe45d777c41e54)
-- [Welp Google Trip](https://gist.github.com/codecademydev/3f6133187e7778193562082f8a5f1ba6)
-- [Reddit Database](https://gist.github.com/codecademydev/244923b38c458ff1c8489bd599ec2d28)
-- [VR Startup](https://gist.github.com/codecademydev/62c9044d191f118ad40b458c560ac4ac)
-- [Car_Manufacturers](https://gist.github.com/codecademydev/822c2ec60038d9a0b704b09fdfd289f8)
-- [Epochai](https://gist.github.com/codecademydev/cdbff92950613863425c9f75859d1397)
-- [Warby_Parker_Usage_Funnels](https://gist.github.com/codecademydev/5c89417f3e464ca1cf84b68925ce2529)
-- [Calculating Monthly Churn Rates Over Multiple Months](https://gist.github.com/codecademydev/10be929d67820affcf711f120c14313c)
-- [Calculating Churn Rate for a Single Month](https://gist.github.com/codecademydev/7059bdad5235a0acf5bb7e6c35fa064e)
-- [Multi-Segments Codeflix Churn Rate](https://gist.github.com/codecademydev/fa5eb47b5605bfc17e2be6d9bb953e5d)
-- [First_Last_Touch_Attribute](https://gist.github.com/codecademydev/93760488069d3043a5103eb6a6f9a895)
-- [Window_Function_Streams](https://gist.github.com/codecademydev/8a8ddd7e6df66c83a63391285e677d2a)
-- [Bakery_Sale_Insight](https://gist.github.com/codecademydev/bb7c7aacf249a17159a34ecfca068c8b)
-- [State_Climate_Change](https://gist.github.com/codecademydev/47e4fb7366d6aa03b92141852d347a4d)
+This repository showcases my SQL learning progress through a collection of projects completed on Codecademy. Each project demonstrates practical SQL applications for data analysis, insights generation, and business decision-making.
 
-## Goal:
-Tracking SQL learning progress from Codecademy courses.
+---
+
+## 📚 Projects Included
+
+### 1. Marketing and Customer Analytics
+- [Warby Parker Customer Journey](projects/marketing_customer_analytics/Warby_Parker_Customer_Journey.sql)
+- [CoolTShirts Marketing Attribution](projects/marketing_customer_analytics/CoolTShirts_Attribution.sql)
+
+### 2. Business and Revenue Analysis
+- [Davie's Burgers Subway Ad Analysis](projects/business_revenue_analysis/Davies_Burgers_Subway.sql)
+- [TechCrunch Startups Analysis](projects/business_revenue_analysis/TechCrunch_Startups.sql)
+- [Lyft Trip Data Analysis](projects/business_revenue_analysis/Lyft_Trip_Data.sql)
+- [Bakery Sales Insights](projects/business_revenue_analysis/Bakery_Sales_Insights.sql)
+
+### 3. User Engagement and Retention Analysis
+- [Calculating Monthly Churn Rates](projects/user_retention_analysis/Monthly_Churn.sql)
+- [Codeflix Churn Rate Analysis](projects/user_retention_analysis/Codeflix_Churn.sql)
+
+### 4. Social Media and Community Analysis
+- [Reddit Database Insights](projects/social_community_analysis/Reddit_Database.sql)
+- [Hacker News Engagement Analysis](projects/social_community_analysis/Hacker_News.sql)
+- [Welp Google Trip Data](projects/social_community_analysis/Welp_Trip_Data.sql)
+
+### 5. Operational and Startup Insights
+- [VR Startup Company Staffing](projects/operational_startup_analysis/VR_Startup.sql)
+- [Epoch AI Data Analysis](projects/operational_startup_analysis/Epoch_AI.sql)
+- [Car Manufacturers Data](projects/operational_startup_analysis/Car_Manufacturers.sql)
+
+### 6. Climate and Environmental Data Analysis
+- [State Climate Change Analysis](projects/climate_environment/State_Climate_Change.sql)
+
+### 7. SQL Advanced Techniques
+- [Window Functions Analysis](projects/advanced_sql/Window_Functions.sql)
+- [Monthly Single Churn Rate](projects/advanced_sql/Single_Month_Churn.sql)
+
+---
+
+## 📈 Insights Summary
+
+The insights derived from several of these projects are documented in a separate file: [`INSIGHT.md`](INSIGHT.md).
+
+This file includes:
+- Structured analysis of SQL query outputs
+- Tables summarizing key metrics (e.g., revenue, user engagement)
+- Observations drawn from results
+- Actionable recommendations for business decision-making
+
+**Examples included in INSIGHT.md:**
+- Warby Parker funnel and conversion analysis
+- CoolTShirts marketing attribution report
+- Bakery product performance and discount strategy insights
+
+---
