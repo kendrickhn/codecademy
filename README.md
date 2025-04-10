@@ -41,7 +41,7 @@ This repository showcases my SQL learning progress through a collection of proje
 
 ## Insights Summary
 
-The insights derived from several of these projects are documented in a separate file: [`INSIGHT.md`](INSIGHT.md).
+The insights derived from several of these projects are documented in a separate file: [`INSIGHT.md`](INSIGHTS.md).
 
 This file includes:
 - Structured analysis of SQL query outputs
