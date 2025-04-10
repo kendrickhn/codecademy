@@ -4,7 +4,7 @@ This repository showcases my SQL learning progress through a collection of proje
 
 ---
 
-## 📚 Projects Included
+## Projects Included
 
 ### 1. Marketing and Customer Analytics
 - [Warby Parker Customer Journey](projects/marketing_customer_analytics/Warby_Parker_Customer_Journey.sql)
