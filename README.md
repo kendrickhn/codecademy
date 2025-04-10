@@ -39,7 +39,7 @@ This repository showcases my SQL learning progress through a collection of proje
 
 ---
 
-## 📈 Insights Summary
+## Insights Summary
 
 The insights derived from several of these projects are documented in a separate file: [`INSIGHT.md`](INSIGHT.md).
 
