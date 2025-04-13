@@ -8,7 +8,7 @@ This repository showcases my SQL learning progress through a collection of proje
 
 ### 1. Marketing and Customer Analytics
 - [Warby Parker Customer Journey](projects/marketing_customer_analytics/Warby_Parker_Customer_Journey.sql)
-- [CoolTShirts Marketing Attribution](projects/marketing_customer_analytics/CoolTShirts_Attribution.sql)
+- [Marketing Attribution](projects/marketing_customer_analytics/CoolTShirts_Attribution.sql)
 
 ### 2. Business and Revenue Analysis
 - [Davie's Burgers Subway Ad Analysis](projects/business_revenue_analysis/Davies_Burgers_Subway.sql)
